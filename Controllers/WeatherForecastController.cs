@@ -28,32 +28,49 @@ namespace WebProject.Controllers
         [Route("exceldatareader")]
         public IActionResult GetReadingFromExceldatareader()
         {
-            IExcelDataReader reader = null;
-            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-            string FilePath = _env.ContentRootPath + "\\"+ "Bulk Records.xlsx";
-            int content = 0;
-            using var filestream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            if (Path.GetExtension(FilePath).Equals(".xls"))
-                reader = ExcelReaderFactory.CreateBinaryReader(filestream);
-            else if (Path.GetExtension(FilePath).Equals(".xlsx"))
-                reader = ExcelReaderFactory.CreateOpenXmlReader(filestream);
-            if (reader != null)
+            try
             {
-                content = reader.FieldCount;
+                IExcelDataReader reader = null;
+                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+                string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
+                int content = 0;
+                using var filestream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                if (Path.GetExtension(FilePath).Equals(".xls"))
+                    reader = ExcelReaderFactory.CreateBinaryReader(filestream);
+                else if (Path.GetExtension(FilePath).Equals(".xlsx"))
+                    reader = ExcelReaderFactory.CreateOpenXmlReader(filestream);
+                if (reader != null)
+                {
+                    content = reader.FieldCount;
+                }
+                return Ok(content);
             }
-            return Ok(content);
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
+            
         }
         [HttpPost]
         [Route("syncfusion")]
         public IActionResult GetReadingFromSyncfusion()
         {
-            ExcelEngine excelEngine = new ExcelEngine();
-            string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
-            using (var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+            try
             {
-                var workbook = excelEngine.Excel.Workbooks.Open(stream);
-                return Ok(workbook.MaxColumnCount);
+                ExcelEngine excelEngine = new ExcelEngine();
+                string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
+                using (var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                {
+                    var workbook = excelEngine.Excel.Workbooks.Open(stream);
+                    return Ok(workbook.MaxColumnCount);
+                }
             }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
+            
         }
     }
 }
