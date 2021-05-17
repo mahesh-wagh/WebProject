@@ -10,4 +10,10 @@
     <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="19.1.0.63" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Bulk Records.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
