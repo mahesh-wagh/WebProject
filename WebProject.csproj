@@ -6,10 +6,14 @@
 
   <ItemGroup>
     <None Remove="Bulk Records.xlsx" />
+    <None Remove="Jet40SP8_9xNT.exe" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Bulk Records.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Jet40SP8_9xNT.exe">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

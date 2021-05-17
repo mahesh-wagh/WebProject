@@ -5,8 +5,6 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-ADD https://www.microsoft.com/en-gb/download/confirmation.aspx?id=7151 .
-
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["WebProject.csproj", "."]
