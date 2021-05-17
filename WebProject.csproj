@@ -5,15 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
-    <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="19.1.0.63" />
+    <None Remove="Bulk Records.xlsx" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Bulk Records.xlsx">
+    <Content Include="Bulk Records.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExcelDataReader" Version="3.6.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    <PackageReference Include="Syncfusion.XlsIO.Net.Core" Version="19.1.0.63" />
   </ItemGroup>
 
 </Project>

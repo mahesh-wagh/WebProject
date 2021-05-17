@@ -34,7 +34,7 @@ namespace WebProject.Controllers
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                 string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
                 int content = 0;
-                using var filestream = new FileStream(FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                using var filestream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
                 if (Path.GetExtension(FilePath).Equals(".xls"))
                     reader = ExcelReaderFactory.CreateBinaryReader(filestream);
                 else if (Path.GetExtension(FilePath).Equals(".xlsx"))
@@ -59,7 +59,7 @@ namespace WebProject.Controllers
             {
                 ExcelEngine excelEngine = new ExcelEngine();
                 string FilePath = _env.ContentRootPath + "\\" + "Bulk Records.xlsx";
-                using (var stream = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+                using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
                 {
                     var workbook = excelEngine.Excel.Workbooks.Open(stream);
                     return Ok(workbook.MaxColumnCount);
