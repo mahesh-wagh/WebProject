@@ -16,7 +16,7 @@ RUN dotnet build "WebProject.csproj" -c Release -o /app/build
 FROM build AS publish
 RUN dotnet publish "WebProject.csproj" -c Release -o /app/publish
 
-ADD https://www.microsoft.com/en-gb/download/confirmation.aspx?id=7151
+ADD https://www.microsoft.com/en-gb/download/confirmation.aspx?id=7151 .
 RUN Jet40SP8_9xNT.exe /Q
 
 FROM base AS final
