@@ -11,6 +11,9 @@ using Syncfusion.Licensing;
 using Syncfusion.Lic;
 using Syncfusion.XlsIO;
 using Microsoft.AspNetCore.Hosting;
+using OfficeOpenXml;
+using NPOI.XSSF.UserModel;
+using GemBox.Spreadsheet;
 
 namespace WebProject.Controllers
 {
@@ -42,6 +45,19 @@ namespace WebProject.Controllers
                 if (reader != null)
                 {
                     content = reader.FieldCount;
+                    while (reader.Read())
+                    {
+                        object i = reader.GetValue(0);
+                    }
+                    //var result = reader.AsDataSet(new ExcelDataSetConfiguration()
+                    //{
+                    //    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
+                    //    {
+                    //        UseHeaderRow = true
+                    //    }
+                    //});
+                    //https://discoverdot.net/projects/excel-data-reader
+                    //DataTable s = result.Tables[0];
                 }
                 return Ok(content);
             }
@@ -49,8 +65,9 @@ namespace WebProject.Controllers
             {
                 return Ok(ex.Message + " " + ex.StackTrace.ToString());
             }
-            
+
         }
+        //epplus and npo
         [HttpPost]
         [Route("syncfusion")]
         public IActionResult GetReadingFromSyncfusion()
@@ -70,7 +87,81 @@ namespace WebProject.Controllers
 
                 return Ok(ex.Message + " " + ex.StackTrace.ToString());
             }
-            
+
+        }
+        [HttpPost]
+        [Route("epplus")]
+        public IActionResult GetReadingFromEPPlus()
+        {
+            try
+            {
+                ExcelPackage.LicenseContext = LicenseContext.Commercial;
+                using (var pck = new OfficeOpenXml.ExcelPackage())
+                {
+                    using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
+                    {
+
+                        pck.Load(stream);
+                    }
+                    var ws = pck.Workbook.Worksheets.First();
+                    return Ok(ws.Workbook.Worksheets.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
+
+        }
+        [HttpPost]
+        [Route("npoi")]
+        public IActionResult GetReadingFromnpoi()
+        {
+            try
+            {
+
+                using (var stream = new FileStream("Bulk Records.xlsx", FileMode.Open, FileAccess.Read))
+                {
+                    XSSFWorkbook xssWorkbook = new XSSFWorkbook(stream);
+                    return Ok(xssWorkbook.Count);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
+        }
+        [HttpPost]
+        [Route("gemboxspreadsheet")]
+        public IActionResult GetReadingFromGemBoxSpreadsheet()
+        {
+            try
+            {
+
+                SpreadsheetInfo.SetLicense("FREE-LIMITED-KEY");
+                // Load Excel workbook from file's path.
+                ExcelFile workbook = ExcelFile.Load("Bulk Records.xlsx");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
+        }
+        [HttpPost]
+        [Route("oledb")]
+        public IActionResult GetReadingFromOLEDB()
+        {
+            try
+            {
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message + " " + ex.StackTrace.ToString());
+            }
         }
     }
 }
